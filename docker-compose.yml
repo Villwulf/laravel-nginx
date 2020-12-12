@@ -1,0 +1,42 @@
+version: "3.1"
+
+services:
+  mariadb:
+    image: mariadb:10.3
+    container_name: mariadb
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=laravel
+    ports:
+      - 8887:3306
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - mariadb
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: root 
+    ports:
+      - 8889:80
+    links:
+      - mariadb
+    
+  nginx:
+    image: richarvey/nginx-php-fpm:1.7.3
+    container_name: nginx
+    restart: always
+# Set your unix user UID, to not to edit the code using root user
+# to know the UID of your unix user type "id -u" in your terminal
+# or type echo $UID
+# or read in /etc/passwd
+    environment: 
+        - PUID=1000
+    ports: 
+      - 8888:80
+    volumes:
+      - ./conf.d:/etc/nginx/sites-available
+      - ./code/:/var/www/html
