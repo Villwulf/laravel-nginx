@@ -28,11 +28,11 @@ docker exec nginx composer create-project --prefer-dist laravel/laravel /var/www
 ```
 **Step 1 and 2 must have the same name**
 
-# Develop
+# Permission issues
 Often when we share code on a volume from our machine to the docker, the container changes the unix user who owns the files and folders. This makes it difficult for us to edit the code and continue with the development. To patch this we can do 2 things:
 
-1. Open code with sudo.
-2. Change the unix user with 'chown -r user:user code/'.
+* Open code with sudo.
+* Change the unix user with 'chown -r user:user code/'.
 
 This is good. But repeating it every time we deploy the project is somewhat boring.
 To fix this, in our nginx we can include an environment variable in the **docker-compose.yml**, which when starting the container sets the local UID of our user to the UID of the service user. In this way, when our Unix system verifies the owner of the files, it identifies the same id and allows us to edit without problems.
