@@ -40,4 +40,4 @@ To fix this, in our nginx we can include an environment variable in the **docker
 environment:
   - PUID=user_unix_id
 ```
-To know the UID of your unix user type '**id -u**' in your terminal or type '**echo $UID**' or **read in /etc/passwd**
+To know the UID of your unix user type '**id -u**' or type '**echo $UID**' or **read in /etc/passwd** in your terminal.
